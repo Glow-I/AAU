@@ -4,13 +4,20 @@ CREATE TABLE FACULTY(
     faculty_name VARCHAR(200) NOT NULL
 );
 
+CREATE TABLE SCHOOL_SESSION(
+    session_id SERIAL PRIMARY KEY,
+    session_name INTEGER NOT NULL UNIQUE,
+    faculty_id INT,
+    FOREIGN KEY (faculty_id) REFERENCES FACULTY(faculty_id)
+);
 
 CREATE TABLE DEPARTMENT(
     department_id SERIAL PRIMARY KEY,
     department_name VARCHAR(200) NOT NULL UNIQUE,
-    faculty_id INT,
-    FOREIGN KEY (faculty_id) REFERENCES FACULTY(faculty_id)
+    session_id INT,
+    FOREIGN KEY (session_id) REFERENCES SCHOOL_SESSION(session_id)
 );
+
 CREATE TABLE MLS_MMB_DEPARTMENT(
     serial_number SERIAL PRIMARY KEY,
     student_mat_number VARCHAR(25) UNIQUE,
@@ -47,4 +54,3 @@ CREATE TABLE MLS_HISTO_DEPARTMENT(
     department_id INT,
     FOREIGN KEY (department_id) REFERENCES DEPARTMENT(department_id)
 );
-SELECT * FROM MLS_HISTO_DEPARTMENT;
