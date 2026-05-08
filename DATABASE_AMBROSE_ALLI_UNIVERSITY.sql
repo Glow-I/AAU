@@ -3,54 +3,29 @@ CREATE TABLE FACULTY(
     faculty_id  SERIAL PRIMARY KEY,
     faculty_name VARCHAR(200) NOT NULL
 );
-
+--SCHOOL SESSION TABLE 
 CREATE TABLE SCHOOL_SESSION(
     session_id SERIAL PRIMARY KEY,
     session_name INTEGER NOT NULL UNIQUE,
     faculty_id INT,
     FOREIGN KEY (faculty_id) REFERENCES FACULTY(faculty_id)
 );
-
-CREATE TABLE DEPARTMENT(
+--DEPARTMENT TABLE,NB:The 'ON DELETE CASCADE' clause ensures that when a faculty is deleted, all associated departments will also be automatically deleted, maintaining referential integrity in the database.
+CREATE TABLE DEPARTMENT
+(
     department_id SERIAL PRIMARY KEY,
     department_name VARCHAR(200) NOT NULL UNIQUE,
     session_id INT,
-    FOREIGN KEY (session_id) REFERENCES SCHOOL_SESSION(session_id)
+    FOREIGN KEY (session_id) REFERENCES SCHOOL_SESSION(session_id) ON DELETE CASCADE
 );
 
-CREATE TABLE MLS_MMB_DEPARTMENT(
-    serial_number SERIAL PRIMARY KEY,
-    student_mat_number VARCHAR(25) UNIQUE,
-    course_code VARCHAR(10),
+--ATTENDANCE TABLE
+CREATE TABLE ATTENDANCE
+(
+    attendance_id SERIAL PRIMARY KEY,
+    student_id INT NOT NULL,
+    department_id INT NOT NULL,
     date_of_attendance DATE NOT NULL DEFAULT CURRENT_DATE CHECK (date_of_attendance <= CURRENT_DATE),
-    attendance_status BOOLEAN, 
-    department_id INT,
-    FOREIGN KEY (department_id) REFERENCES DEPARTMENT(department_id)
-);
-CREATE TABLE MLS_CHEMPATH_DEPARTMENT(
-    serial_number SERIAL PRIMARY KEY,
-    student_mat_number VARCHAR(25) UNIQUE,
-    course_code VARCHAR(10),
-    date_of_attendance DATE NOT NULL DEFAULT CURRENT_DATE CHECK (date_of_attendance <= CURRENT_DATE),
-    attendance_status BOOLEAN, 
-    department_id INT,
-    FOREIGN KEY (department_id) REFERENCES DEPARTMENT(department_id)
-);
-CREATE TABLE MLS_HEAMA_DEPARTMENT(
-    serial_number SERIAL PRIMARY KEY,
-    student_mat_number VARCHAR(25) UNIQUE,
-    course_code VARCHAR(10),
-    date_of_attendance DATE NOT NULL DEFAULT CURRENT_DATE CHECK (date_of_attendance <= CURRENT_DATE),
-    attendance_status BOOLEAN, 
-    department_id INT,
-    FOREIGN KEY (department_id) REFERENCES DEPARTMENT(department_id)
-);          
-CREATE TABLE MLS_HISTO_DEPARTMENT(
-    serial_number SERIAL PRIMARY KEY,
-    student_mat_number VARCHAR(25) UNIQUE,
-    course_code VARCHAR(10),
-    date_of_attendance DATE NOT NULL DEFAULT CURRENT_DATE CHECK (date_of_attendance <= CURRENT_DATE),
-    attendance_status BOOLEAN, 
-    department_id INT,
+    attendance_status BOOLEAN NOT NULL, 
     FOREIGN KEY (department_id) REFERENCES DEPARTMENT(department_id)
 );
