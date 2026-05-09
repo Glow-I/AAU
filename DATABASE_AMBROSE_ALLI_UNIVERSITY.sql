@@ -23,9 +23,10 @@ CREATE TABLE DEPARTMENT
 CREATE TABLE ATTENDANCE
 (
     attendance_id SERIAL PRIMARY KEY,
-    student_id INT NOT NULL,
+    mat_number VARCHAR(20) NOT NULL,
     department_id INT NOT NULL,
     date_of_attendance DATE NOT NULL DEFAULT CURRENT_DATE CHECK (date_of_attendance <= CURRENT_DATE),
     attendance_status BOOLEAN NOT NULL, 
     FOREIGN KEY (department_id) REFERENCES DEPARTMENT(department_id)
 );
+SELECT * FROM attendance;
